@@ -19,7 +19,7 @@ public:
                     int temp=nums[ind];
                     nums[ind]=nums[i];
                     nums[i]=temp;
-                    sort(nums.begin()+ind+1,nums.end());
+                    reverse(nums.begin()+ind+1,nums.end());
                     break;
                 }
             }
