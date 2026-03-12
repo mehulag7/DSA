@@ -12,13 +12,14 @@ public:
                 if(nums[i]%mid) count++;
             }
             cout<<mid<<" "<<count<<endl;
-            if(count>threshold){
-                low=mid+1;
-            }
-            else{
+            if(count<=threshold){
+                ans=mid;
                 high=mid-1;
             }
+            else{
+                low=mid+1;
+            }
         }
-        return low;
+        return ans;
     }
 };
