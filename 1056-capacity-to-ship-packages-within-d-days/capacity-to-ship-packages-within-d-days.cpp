@@ -24,6 +24,6 @@ public:
                 low=mid+1;
             }
         }
-        return ans;
+        return low;
     }
 };
