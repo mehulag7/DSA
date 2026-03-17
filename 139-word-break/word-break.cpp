@@ -1,24 +1,20 @@
 class Solution {
 public:
-bool check(string s,int i,int j,vector<string>& wordDict,vector<vector<int>>& dp){
-string p=s.substr(i,j-i+1);
-if(dp[i][j]!=-1) return dp[i][j];
-for(auto w:wordDict){
-if(w==p) return dp[i][j]=true;
-}
-bool k=false;
-for(int d=i;d<j;d++){
-if(check(s,i,d,wordDict,dp)&check(s,d+1,j,wordDict,dp)){
-    k=true;
-    break;
-}
-}
-return dp[i][j]=k;
-}
     bool wordBreak(string s, vector<string>& wordDict) {
-     int n=s.length();
-     bool ans=false;
-     vector<vector<int>> dp(n,vector<int>(n,-1));
-     return check(s,0,n-1,wordDict,dp);
+        int n = s.size();
+        unordered_set<string> st(wordDict.begin(), wordDict.end());
+
+        vector<bool> dp(n + 1, false);
+        dp[0] = true;
+
+        for(int i = 1; i <= n; i++){
+            for(int j = 0; j < i; j++){
+                if(dp[j] && st.count(s.substr(j, i - j))){
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[n];
     }
 };
