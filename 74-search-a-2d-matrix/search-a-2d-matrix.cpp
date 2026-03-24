@@ -1,21 +1,18 @@
 class Solution {
 public:
-    bool searchMatrix(vector<vector<int>>& matrix, int k) {
-        int i=matrix.size();
-        int j=matrix[0].size();
-        int low=0,high=i*j-1;
-        while(low<=high){
-            int mid=(low+high)/2;
-            int row=mid/j;
-            int col=mid-row*j;
-            if(matrix[row][col]<k){
-                low=mid+1;
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int row=matrix.size();
+        int col=matrix[0].size();
+        int i=0,j=col-1;
+        while(i<row && j>=0){
+            if(matrix[i][j]==target){
+                return true;
             }
-            else if(matrix[row][col]>k){
-                high=mid-1;
+            else if(matrix[i][j]<target){
+                i++;
             }
             else{
-                return true;
+                j--;
             }
         }
         return false;
