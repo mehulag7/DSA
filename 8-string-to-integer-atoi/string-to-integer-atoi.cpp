@@ -1,37 +1,35 @@
 class Solution {
 public:
     int myAtoi(string s) {
-        int i = 0, n = s.size();
-        long long ans = 0;
-        int sign = 1;
-
-        // 1. Skip leading spaces
-        while (i < n && s[i] == ' ') i++;
-
-        // 2. Handle sign
-        if (i < n && (s[i] == '+' || s[i] == '-')) {
-            sign = (s[i] == '-') ? -1 : 1;
-            i++;
-        }
-
-        // 3. Convert digits
-        while (i < n && isdigit(s[i])) {
-            int digit = s[i] - '0';
-
-            // 4. Overflow check BEFORE update
-            if (ans > (LLONG_MAX - digit) / 10) {
-                return sign == 1 ? INT_MAX : INT_MIN;
+        long long v=0;
+        int p=0;
+        int n=s.length();
+        for(int i=0;i<n;i++){
+            if(s[i]==' ') {
+                p=i+1;
             }
-
-            ans = ans * 10 + digit;
-            i++;
+            else break;
         }
-
-        ans *= sign;
-
-        // 5. Clamp to int range
-        if (ans > INT_MAX) return INT_MAX;
-        if (ans < INT_MIN) return INT_MIN;
-        return (int)ans;
+        int k=1;
+        if(p!=n && s[p]=='-') {
+            k=-1;
+        }
+        if(p!=n && (s[p]=='-' || s[p]=='+')) p++;
+        for(int i=p;i<n;i++){
+            if(s[i]>='0' && s[i]<='9'){
+                v=v*10+(s[i]-'0');
+                if(v*k<INT_MIN) {
+                    v=INT_MIN;
+                    return v;
+                }
+                else if(v*k>INT_MAX) {
+                    v=INT_MAX;
+                    return v;
+                }
+            }
+            else break;
+        }
+        v*=k;
+        return v;
     }
 };
