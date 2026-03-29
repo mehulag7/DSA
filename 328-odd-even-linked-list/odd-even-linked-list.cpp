@@ -15,7 +15,7 @@ public:
         ListNode* odd=head;
         ListNode* even=head->next;
         ListNode* even1=head->next;
-        while(odd!=NULL && odd->next!=NULL && odd->next->next!=NULL){
+        while(even!=NULL && even->next!=NULL){
             odd->next=odd->next->next;
             odd=odd->next;
             if(odd!=NULL) {
