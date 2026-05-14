@@ -11,51 +11,20 @@
  */
 class Solution {
 public:
+    int check(TreeNode* root){
+        if(root==NULL) return 0;
+        int lh=check(root->left);
+        int rh=check(root->right);
+        if(lh==-1 || rh==-1) return -1;
+        if(abs(lh-rh)>1) return -1;
+        else return max(lh,rh)+1;
+    }
     bool isBalanced(TreeNode* root) {
         if(root==NULL) return true;
-        TreeNode* s=root;
-        stack<TreeNode*> st;
-        st.push(root);
-        bool ans=true;
-        map<TreeNode*,int> mpp;
-        while(!st.empty()){
-            TreeNode* x=st.top();
-            if(x->left==NULL && x->right==NULL) {
-                mpp[x]=1;
-                st.pop();
-            }
-            else if(x->left==NULL && x->right!=NULL){
-                if(mpp.count(x->right)){
-                    if(mpp[x->right]>1) ans=false;
-                 mpp[x]=1+mpp[x->right];
-                 st.pop();
-                }
-                else{
-                  st.push(x->right);
-                }
-            }
-            else if(x->left!=NULL && x->right==NULL){
-                if(mpp.count(x->left)){
-                    if(mpp[x->left]>1) ans=false;
-                 mpp[x]=1+mpp[x->left];
-                 st.pop();
-                }
-                else{
-                  st.push(x->left);
-                }
-            }
-            else{
-               if(mpp.count(x->right) && mpp.count(x->left)){
-                if(abs(mpp[x->right]-mpp[x->left])>1) ans=false;
-                mpp[x]=1+max(mpp[x->right],mpp[x->left]);
-                st.pop();
-               }
-               else{
-                st.push(x->right);
-                st.push(x->left);
-               }
-            }
-        }
-        return ans;
+         if(check(root)!=-1){
+            return true;
+         }
+         else return false;
     }
+        
 };
