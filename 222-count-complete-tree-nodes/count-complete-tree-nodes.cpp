@@ -12,26 +12,23 @@
 class Solution {
 public:
     int countNodes(TreeNode* root) {
-        if(!root) return 0;
-        queue<TreeNode*> q;
-        q.push(root);
-        int ans=0;
-        while(!q.empty()){
-           int a=q.size();
-           for(int i=0;i<a;i++){
-            TreeNode* x=q.front();
-            ans++;
-            q.pop();
-            if(x->left){
-                //mpp[x->left]=x;
-                q.push(x->left);
-            }
-            if(x->right){
-               // mpp[x->right]=x;
-                q.push(x->right);
-            }
-           }
+        if(root==NULL) return 0;
+        int lh=1,rh=1;
+        TreeNode* x=root;
+        while(x->left) {
+            x=x->left;
+            lh++;
         }
-        return ans;
+        x=root;
+        while(x->right) {
+            x=x->right;
+            rh++;
+        }
+        if(lh==rh){
+            return (1<<lh)-1;
+        }
+        else{
+            return 1+countNodes(root->left)+countNodes(root->right);
+        }
     }
 };
