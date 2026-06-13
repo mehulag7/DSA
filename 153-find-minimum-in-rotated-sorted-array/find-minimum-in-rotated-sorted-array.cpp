@@ -1,21 +1,21 @@
 class Solution {
 public:
-void bs(vector<int>& nums,int low,int high,int &ans){
-        if(low>high) return;
-        int mid=(low+high)/2;
-        if(nums[mid]<ans) {
-            ans=nums[mid];
-
-        }
-         bs(nums,mid+1,high,ans);
-         bs(nums,low,mid-1,ans);
-         return;
-    }
     int findMin(vector<int>& nums) {
-        int ans=nums[0];
-        int low=0;
-        int high=nums.size()-1;
-        bs(nums,low,high,ans);
-        return ans;
+        int n=nums.size();
+        if(nums[0]<nums[n-1]) return nums[0];
+        int low=0,high=n-1;
+        int mn=nums[n-1];
+        while(low<=high){
+           int mid=(low+high)/2;
+           mn=min(mn,nums[mid]);
+           if(nums[mid]>=nums[low]){
+            mn=min(mn,nums[low]);
+            low=mid+1;
+           }
+           else{
+            high=mid-1;
+           }
+        }
+        return mn;
     }
 };
