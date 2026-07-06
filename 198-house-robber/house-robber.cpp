@@ -1,13 +1,13 @@
 class Solution {
 public:
     int rob(vector<int>& nums) {
-        int n=nums.size();
-        vector<int> v(n,0);
-        v[0]=nums[0];
-       if(n>1) v[1]=max(nums[1],nums[0]);
-        for(int i=2;i<n;i++){
-            v[i]=max(v[i-1],v[i-2]+nums[i]);
+        vector<pair<int,int>> dp(nums.size()+1,{0,0});
+        dp[1].first=nums[0];
+        for(int i=1;i<nums.size();i++){
+           dp[i+1].first=max(dp[i+1].first,dp[i].second+nums[i]);
+           dp[i+1].second=max(dp[i].second,dp[i].first);
         }
-        return v[n-1];
+        return max(dp[nums.size()].first,dp[nums.size()].second);
+
     }
 };
