@@ -1,36 +1,39 @@
 class Solution {
 public:
-    int timer=1;
-    void dfs(int node,int parent,vector<vector<int>>& adj,vector<int>&visited,vector<int>& tin,vector<int>& low,vector<vector<int>> &bridges){
-        visited[node]=1;
-        tin[node]=low[node]=timer;
+    int timer=0;
+    void dfs(int node,int parent,vector<vector<int>> &adj,vector<vector<int>>& ans,vector<int>& low,vector<int>& disc){
         timer++;
-        for(auto it:adj[node]){
-            if(it==parent) continue;
-            if(visited[it]==0){
-                dfs(it,node,adj,visited,tin,low,bridges);
-                low[node]=min(low[node],low[it]);
-                if(low[it]>tin[node]) bridges.push_back({it,node});
-            }
-            else{
-                low[node]=min(low[node],low[it]);
+        low[node]=timer;
+        disc[node]=timer;
+        for(auto adjnode:adj[node]){
+            if(adjnode!=parent){
+                if(disc[adjnode]==0){
+                    dfs(adjnode,node,adj,ans,low,disc);
+                    low[node]=min(low[node],low[adjnode]);
+                }
+                else{
+                    low[node]=min(low[node],disc[adjnode]);
+                }
+                if(low[adjnode]>disc[node]){
+                    ans.push_back({node,adjnode});
+                }
             }
         }
     }
     vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
-        vector<vector<int>> bridges;
-        vector<vector<int>> adj(n);
+        vector<vector<int>> adj(n+1);
         for(int i=0;i<connections.size();i++){
-            int u=connections[i][0];
-            int v=connections[i][1];
-            adj[u].push_back(v);
-            adj[v].push_back(u);
+            adj[connections[i][0]].push_back(connections[i][1]);
+            adj[connections[i][1]].push_back(connections[i][0]);
         }
-        vector<int> visited(n,0);
-        vector<int> tin(n);
-        vector<int> low(n);
-        int time=1;
-        dfs(0,-1,adj,visited,tin,low,bridges);
-        return bridges;
+        vector<int> disc(n,0);
+        vector<int> low(n,0);
+        vector<vector<int>> ans;
+        for(int i=0;i<n;i++){
+            if(disc[i]==0){
+                dfs(i,-1,adj,ans,low,disc);
+            }
+        }
+        return ans;
     }
 };
