@@ -15,7 +15,8 @@ public:
                     low[node]=min(low[node],disc[adjnode]);
                 }
                 if(low[adjnode]>disc[node]){
-                    ans.push_back({node,adjnode});
+                 if(node<adjnode) ans.push_back({node,adjnode});
+                 else ans.push_back({adjnode,node});
                 }
             }
         }
